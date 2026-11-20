@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",         // versión de JavaScript que genera
+    "module": "commonjs",       // formato de módulos que entiende Node
+    "rootDir": "src",           // dónde está tu código TypeScript
+    "outDir": "dist",           // dónde deja el JavaScript compilado
+    "strict": true,             // TypeScript estricto: te avisa más errores
+    "esModuleInterop": true,    // permite escribir: import express from "express"
+    "skipLibCheck": true        // no revisa los tipos de las librerías (más rápido)
+  },
+  "include": ["src"]            // compila solo lo que está en src
+}
