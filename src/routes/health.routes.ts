@@ -1,9 +1,46 @@
-import { Router } from "express";            // trae el "enrutador" de Express
+import { Router } from "express";
+import pool from "../config/database";
 
-const router = Router();                      // crea un grupo de rutas
+const router = Router();
+/**
+ * @openapi
+ * /health:
+ *   get:
+ *     summary: Verificar el estado del backend
+ *     description: Comprueba el funcionamiento del servidor y su conexión con PostgreSQL.
+ *     tags:
+ *       - Health
+ *     responses:
+ *       200:
+ *         description: Servidor y base de datos funcionando correctamente.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: ok
+ *               database: connected
+ *       503:
+ *         description: Error de conexión con la base de datos.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: error
+ *               database: disconnected
+ */
+router.get("/", async (_req, res) => {
+  try {
+    await pool.query("SELECT 1");
 
-router.get("/", (_req, res) => {              // cuando alguien pide GET /health...
-  res.json({ status: "ok" });                 // ...responde con { "status": "ok" }
+    res.json({
+      status: "ok",
+      database: "connected"
+    });
+  } catch {
+    res.status(503).json({
+      status: "error",
+      database: "disconnected"
+    });
+  }
 });
 
-export default router;                        // lo exporta para usarlo en app.ts
+export default router;
+
