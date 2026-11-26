@@ -1,9 +1,23 @@
-import { Router } from "express";            // trae el "enrutador" de Express
+import { Router } from "express";
+import pool from "../config/database";
 
-const router = Router();                      // crea un grupo de rutas
+const router = Router();
 
-router.get("/", (_req, res) => {              // cuando alguien pide GET /health...
-  res.json({ status: "ok" });                 // ...responde con { "status": "ok" }
+router.get("/", async (_req, res) => {
+  try {
+    await pool.query("SELECT 1");
+
+    res.json({
+      status: "ok",
+      database: "connected"
+    });
+  } catch {
+    res.status(503).json({
+      status: "error",
+      database: "disconnected"
+    });
+  }
 });
 
-export default router;                        // lo exporta para usarlo en app.ts
+export default router;
+
