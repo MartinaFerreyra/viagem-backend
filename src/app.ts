@@ -1,16 +1,18 @@
 //la configuración del servidor
-import express from "express";                      // trae Express
-import cors from "cors";                            // trae CORS
-import healthRoutes from "./routes/health.routes";  // trae la ruta de prueba
+import express from "express";
+import cors from "cors";
+import healthRoutes from "./routes/health.routes";
+import authRoutes from "./routes/auth.routes";        // trae tus rutas de autenticación
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger";
 
-const app = express();                              // crea la aplicación
+const app = express();
 
-app.use(cors());                                    // permite pedidos desde otros dominios (el frontend)
-app.use(express.json());                            // permite leer JSON en los pedidos (ej.: email y contraseña)
+app.use(cors());
+app.use(express.json());
 
-app.use("/health", healthRoutes);                   // conecta la ruta de prueba en /health
+app.use("/health", healthRoutes);
+app.use("/auth", authRoutes);                          // todo lo que empiece con /auth va a tus rutas
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-export default app;                                 // la exporta para usarla en index.ts
+export default app;
