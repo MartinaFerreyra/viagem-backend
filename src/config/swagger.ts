@@ -18,6 +18,15 @@ const options: swaggerJsdoc.Options = {
         description: "Servidor de desarrollo",
       },
     ],
+    components: {                         // configuración extra de la documentación
+      securitySchemes: {                  // tipos de seguridad que usa la API
+        bearerAuth: {                     // el token "Bearer"
+          type: "http",                   // viaja en el encabezado del pedido
+          scheme: "bearer",               // con formato "Bearer <token>"
+          bearerFormat: "JWT",            // el token es un JWT
+        },
+      },
+    },
   },
   apis: ["./src/routes/*.ts", "./dist/routes/*.js"],
 };
@@ -25,4 +34,3 @@ const options: swaggerJsdoc.Options = {
 const swaggerSpec = swaggerJsdoc(options);
 
 export default swaggerSpec;
-
